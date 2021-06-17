@@ -11,11 +11,11 @@ services:
       - 8388:8388/tcp # Shadowsocks
       - 8388:8388/udp # Shadowsocks
       - 8000:8000/tcp # Built-in HTTP control server
-      - 7878:7878/tcp # Sonarr
-      - 8686:8686/tcp # Radarr
-      - 9117:9117/tcp # Jacker
+      - 7878:7878/tcp # Radarr
+      - 8989:8989/tcp # Sonarr
+      - 9117:9117/tcp # Jackett
       - 9091:9091/tcp # Transmission
-      - 51413:51413/udp # Transmission
+      - 51413:51413/tcp # Transmission
       - 51413:51413/udp # Transmission
     volumes:
       - ${PATH}/appdata/gluetun/:/gluetun
@@ -59,9 +59,6 @@ services:
     ports:
       - 53:53/tcp
       - 53:53/udp
-      - 67:67/udp
-      - 68:68/tcp
-      - 68:68/udp
       - 853:853/tcp
       - 3000:3000/tcp
     volumes:
@@ -95,7 +92,9 @@ services:
       - ${PATH}/appdata/transmission:/config
       - ${PATH}/downloads/completed:/downloads
       - ${PATH}/downloads/watch:/watch
-    network_mode: container:gluetun
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
     restart: unless-stopped
     
   jackett:
@@ -109,7 +108,9 @@ services:
     volumes:
       - ${PATH}/appdata/jackett:/config
       - ${PATH}/downloads/watch:/downloads
-    network_mode: container:gluetun
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
     restart: unless-stopped
       
       
@@ -125,7 +126,9 @@ services:
       - ${PATH}/appdata/radarr:/config
       - ${PATH}/media/movies:/movies
       - ${PATH}/downloads/completed:/downloads
-    network_mode: container:gluetun
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
     restart: unless-stopped
       
       
@@ -141,7 +144,9 @@ services:
       - ${PATH}/appdata/sonarr:/config
       - ${PATH}/media/tv:/tv
       - ${PATH}/downloads/completed:/downloads
-    network_mode: container:gluetun
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
     restart: unless-stopped
       
   duplicati:
@@ -169,6 +174,6 @@ services:
 
 secrets:
   openvpn_user:
-    file: ./openvpn_user
+    file: ./openvpn_user.txt
   openvpn_password:
-    file: ./openvpn_password
+    file: ./openvpn_password.txt
