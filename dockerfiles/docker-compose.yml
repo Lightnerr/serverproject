@@ -18,7 +18,7 @@ services:
       - 51413:51413/tcp # Transmission
       - 51413:51413/udp # Transmission
     volumes:
-      - ${PATH}/appdata/gluetun/:/gluetun
+      - ${PATHDIR}/appdata/gluetun/:/gluetun
     secrets:
       - openvpn_user
       - openvpn_password
@@ -43,9 +43,9 @@ services:
     ports:
       - 32400:32400/tcp
     volumes:
-      - ${PATH}/appdata/plex:/config
-      - ${PATH}/media/tv/:/tv
-      - ${PATH}/media/movies/:/movies
+      - ${PATHDIR}/appdata/plex:/config
+      - ${PATHDIR}/media/tv/:/tv
+      - ${PATHDIR}/media/movies/:/movies
     restart: unless-stopped
     
     
@@ -62,8 +62,8 @@ services:
       - 853:853/tcp
       - 3000:3000/tcp
     volumes:
-      - ${PATH}/appdata/adguardhome/workdir/:/opt/adguardhome/work
-      - ${PATH}/appdata/adguardhome/confdir/:/opt/adguardhome/conf
+      - ${PATHDIR}/appdata/adguardhome/workdir/:/opt/adguardhome/work
+      - ${PATHDIR}/appdata/adguardhome/confdir/:/opt/adguardhome/conf
     restart: unless-stopped    
     
     
@@ -75,7 +75,7 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
     volumes:
-      - ${PATH}/appdata/heimdall/:/config
+      - ${PATHDIR}/appdata/heimdall/:/config
     ports:
       - 5000:80
     restart: unless-stopped
@@ -89,9 +89,9 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
     volumes:
-      - ${PATH}/appdata/transmission:/config
-      - ${PATH}/downloads/completed:/downloads
-      - ${PATH}/downloads/watch:/watch
+      - ${PATHDIR}/appdata/transmission:/config
+      - ${PATHDIR}/downloads/completed:/downloads
+      - ${PATHDIR}/downloads/watch:/watch
     network_mode: service:gluetun
     depends_on:
       - gluetun
@@ -106,8 +106,8 @@ services:
       - TZ=${TZ}
       - AUTO_UPDATE=true
     volumes:
-      - ${PATH}/appdata/jackett:/config
-      - ${PATH}/downloads/watch:/downloads
+      - ${PATHDIR}/appdata/jackett:/config
+      - ${PATHDIR}/downloads/watch:/downloads
     network_mode: service:gluetun
     depends_on:
       - gluetun
@@ -123,9 +123,9 @@ services:
     - TZ=${TZ}
     - UMASK_SET=022
     volumes:
-      - ${PATH}/appdata/radarr:/config
-      - ${PATH}/media/movies:/movies
-      - ${PATH}/downloads/completed:/downloads
+      - ${PATHDIR}/appdata/radarr:/config
+      - ${PATHDIR}/media/movies:/movies
+      - ${PATHDIR}/downloads/completed:/downloads
     network_mode: service:gluetun
     depends_on:
       - gluetun
@@ -141,9 +141,9 @@ services:
       - TZ=${TZ}
       - UMASK_SET=022
     volumes:
-      - ${PATH}/appdata/sonarr:/config
-      - ${PATH}/media/tv:/tv
-      - ${PATH}/downloads/completed:/downloads
+      - ${PATHDIR}/appdata/sonarr:/config
+      - ${PATHDIR}/media/tv:/tv
+      - ${PATHDIR}/downloads/completed:/downloads
     network_mode: service:gluetun
     depends_on:
       - gluetun
@@ -157,9 +157,9 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
     volumes:
-      - ${PATH}/appdata/duplicati:/config
-      - ${PATH}/backups:/backups
-      - ${PATH}/appdata:/source
+      - ${PATHDIR}/appdata/duplicati:/config
+      - ${PATHDIR}/backups:/backups
+      - ${PATHDIR}/appdata:/source
     ports:
       - 8200:8200
     restart: unless-stopped
